@@ -1,0 +1,11 @@
+Hello {{user.username}}
+
+Welcome To Pro-Pitch.
+We have just seen you have signed up for our application and want to welcome you to the Pro Fam.
+Enjoy the freedom to pitch your ideas.
+
+Enjoy
+
+
+By
+Pro-Pitch Team
