@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+  {% block styles%}
+      {{ super() }}
+  {% endblock %}
+  {% block content %}
+  <div style="display: flex;justify-content: center; margin-top: 3rem" class="jumbotron">
+  <h2 style="text-align: center;font-family: 'Times New Roman', Times, serif">Welcome To Pro Pitch Family</h2>
+</div>
+
+     
+    <div style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;font-size: larger" class="container">
+       
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+        {% if current_user.is_authenticated%}
+
+          
+          <h2><u>Welcome {{ current_user.username }}</u></h2>
+        
+
+        <h2>Get started:</h2>
+            <ol>
+                <li>View all pitched ideas in our pitch page</li>
+                <li>To get access to comment sign up if knew to our family</li>
+                <li>Or you can login to your account</li>
+                <li>Cheers Mate!!</li>
+            </ol>
+
+        {% else %}
+
+        <h2>Get started:</h2>
+            <ol>
+                <li>View all pitched ideas in our pitch page</li>
+                <li>To get access to comment sign up if knew to our family</li>
+                <li>Or you can login to your account</li>
+                <li>Cheers Mate!!</li>
+        {%endif%}
+                {%if current_user.is_authenticated%}
+                <h4 class="text-left"><a class="btn btn-success" href="{{url_for('main.new_pitch')}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Pitch Your Project</a></h4>
+                {% endif %}
+          {{ macro.displayCategoryList(categories) }}
+        </div>
+        <div class="panel">
+        {{ macro.displayPitches(pitches) }}
+        </div>
+<!-- {% endblock %} -->
+    </div>
+</div>
+ 
+</body>
+</html>
