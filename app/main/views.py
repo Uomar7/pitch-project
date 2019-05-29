@@ -53,17 +53,6 @@ def update_profile(uname):
     return render_template('profile/update.html', form=form, user=user)
 
 
-@main.route('/user/<uname>/update/pic', methods=['GET', 'POST'])
-@login_required
-def update_pic(uname):
-
-    user = User.query.filter_by(username=uname).first()
-    if 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        path = f'photos/{filename}'
-        user.profile_photo_path = path
-        db.session.commit()
-    return redirect(url_for('main.profile', uname=uname))
 
 
 @main.route('/pitch/new', methods=['GET', 'POST'])
@@ -89,6 +78,17 @@ def new_pitch():
 
     return render_template('new_pitch.html', PitchForm=form)
 
+@main.route('/user/<uname>/update/pic', methods=['GET', 'POST'])
+@login_required
+def update_pic(uname):
+
+    user = User.query.filter_by(username=uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_photo_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile', uname=uname))
 
 @main.route('/category/<int:id>')
 def pitches(category):
@@ -110,6 +110,24 @@ def reviews(pitch_id):
 
     return render_template('reviews.html', pitch=pitch, reviews=reviews)
 
+@main.route('/add/category', methods=['GET', 'POST'])
+@login_required
+def new_category():
+    '''
+    View new group route function that returns a page with a form to create a category
+    '''
+    form = CategoryForm()
+    pitch = Pitch.query.all()
+
+    if form.validate_on_submit():
+        name = form.pitch.data
+        new_category = Category(name=name)
+        new_category.save_category()
+
+        return redirect(url_for('main.index'))
+
+    title = 'New category'
+    return render_template('new_category.html', category_form=form, title=title, pitches=pitch)
 
 @main.route('/pitch/review/new/<pitch_id>', methods=['GET', 'POST'])
 @login_required
@@ -153,21 +171,3 @@ def post_comment(id):
     return render_template('post_comment.html', comment_form=form, title=title)
 
 
-@main.route('/add/category', methods=['GET', 'POST'])
-@login_required
-def new_category():
-    '''
-    View new group route function that returns a page with a form to create a category
-    '''
-    form = CategoryForm()
-    pitch = Pitch.query.all()
-
-    if form.validate_on_submit():
-        name = form.pitch.data
-        new_category = Category(name=name)
-        new_category.save_category()
-
-        return redirect(url_for('main.index'))
-
-    title = 'New category'
-    return render_template('new_category.html', category_form=form, title=title, pitches=pitch)
