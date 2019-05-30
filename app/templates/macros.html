@@ -14,14 +14,11 @@
     <div class="well">
       <div class="row">
         <!-- <p>{{pitches.name|upper}}</p></a> -->
-        <div class="col-md-10 col-sm-12">
+        <div class="col-md-10 col-md-offset-1 col-sm-12">
             <h3>{{pitches.title}}</h3>
-              <a href=" {{url_for('.new_pitch',id=pitches.id)}}"><button class="btn btn-primary">Read Comments</button></a>
-
             <a href=" {{url_for('.post_comment',id=pitches.id)}}"> <button class="btn btn-success">Add COMMENT</button></a>
         </div>
-        </div>
-    </HISTORY> ..
+      </div>
 
   </div>
   {% endfor %}

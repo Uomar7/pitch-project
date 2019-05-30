@@ -95,10 +95,14 @@ def pitches(category):
     '''
     category route function returns a list of pitches in the category chosen
     '''
+    title = Pitch.query.filter_by(
+        pitch_id=pitch.id).order_by(Pitch.posted.desc())
     pitches = Pitch.query.filter_by(
         category=category).order_by(Pitch.posted.desc())
+    comments = Review.query.filter_by(
+        pitch_id=pitch.id).order_by(Review.posted.desc())
 
-    return render_template("pitches.html", pitches=pitches, category=category)
+    return render_template("pitches.html", pitches=pitches, category=category,comments=comments,title=title)
 
 
 @main.route('/reviews/<pitch_id>')
@@ -162,11 +166,12 @@ def post_comment(id):
          abort(404)
 
     if form.validate_on_submit():
-        feedback = form.opinion.data
+        feedback = form.feedback.data
         new_comment = Comments(
             feedback=feedback, user_id=current_user.id, pitches_id=pitches.id)
         new_comment.save_comment()
-        return redirect(url_for('main.index', id=pitches.id))
+        
+        # return redirect(url_for('main.index', id=pitches.id))
 
     return render_template('post_comment.html', comment_form=form, title=title)
 

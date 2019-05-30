@@ -13,8 +13,9 @@ class PitchForm(FlaskForm):
     '''
     Class to create a wtf form for creating a pitch
     '''
+    title = StringField('Pitch title',validators=[Required()])
     category_id = SelectField("Select Category :", choices=[('c', 'select'), (
-        '1', 'Artifitial Intelegence'), ('2', 'Robotics'), ('3', 'Drones'), ('4', 'IoT'), ('5', 'Data Science')])
+        '1', 'Educational'), ('2', 'Agricultural'), ('3', 'Sports'), ('4', 'Science'), ('5', 'Technology')])
     pitch = TextAreaField(" Post your pitch", validators=[Required()])
     submit = SubmitField("Add your pitch ")
 
@@ -28,16 +29,8 @@ class CommentForm(FlaskForm):
     '''
     Class to create a wtf form for creating a pitch
     '''
-    feedback = TextAreaField('WRITE COMMENT')
+    feedback = TextAreaField('WRITE COMMENT',validators=[Required()])
     submit = SubmitField('SUBMIT')
-
-
-class DisplayPitch(FlaskForm):
-    text = TextAreaField('Write your pitch', validators=[Required()])
-    categories = SelectField('Select Category', choices=[('EDUCATIONAL', 'EDUCATIONAL'), (
-        'BUSINESS', 'BUSINESS'), ('TECHNOLOGY','TECHNOLOGY'),('INSPIRATIONAL', 'INSPIRATIONAL'), ('SPORTS', 'SPORTS')])
-    submit = SubmitField('post')
-
 
 class CategoryForm(FlaskForm):
     '''

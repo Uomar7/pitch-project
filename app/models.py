@@ -5,9 +5,6 @@ from . import login_manager
 from datetime import datetime
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 
 class User(UserMixin, db.Model):
@@ -19,7 +16,7 @@ class User(UserMixin, db.Model):
     profile_photo_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     pitches = db.relationship("Pitch", backref="pitches", lazy="dynamic")
-    comments = db.relationship("Review", backref="reviews1", lazy="dynamic")
+    comments = db.relationship("Review", backref="reviews", lazy="dynamic")
 
     @property
     def password(self):
@@ -34,6 +31,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # class PhotoProfile(db.Model):
 #     __tablename__ = 'profile_photos'
@@ -45,17 +45,21 @@ class User(UserMixin, db.Model):
 
 
 class Pitch(db.Model):
-    """ List of pitches in each category """
+    """ 
+    List of pitches in each category
+    """
     __tablename__ = 'pitches'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    category_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    title = db.Column(db.String(255))
     comment_id = db.relationship("Comments", backref="pitch", lazy="dynamic")
+    category_id = db.Column(db.Integer,db.ForeignKey('categories.id'))
 
     def save_pitch(self):
-        ''' Save the pitches '''
+        '''
+         Save the pitches 
+        '''
         db.session.add(self)
         db.session.commit()
 
@@ -89,7 +93,7 @@ class Comments(db.Model):
     # add columns
     id = db.Column(db. Integer, primary_key=True)
     feedback = db.Column(db.String(255))
-    time_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
 

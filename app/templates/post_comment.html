@@ -5,7 +5,17 @@
 {%endblock%}
 
 {% block content %}
-<div class="container">
+{% for comment in comments %}
+<div style="margin-top: 8rem" class="row">
+  <div class="row">
+    <p>comment.feedback</p><br>
+    <p>comment.posted</p>
+  </div>
+  <div class="row"></div>
+</div>
+
+{% endfor %}
+<div style="margin: 0 auto; margin-top: 6rem; width:40vw" class="container">
   {{wtf.quick_form(comment_form)}}
 </div>
 {% endblock %}
