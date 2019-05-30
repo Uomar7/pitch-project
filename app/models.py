@@ -35,12 +35,12 @@ class User(UserMixin, db.Model):
         return f'User {self.username}'
 
 
-class PhotoProfile(db.Model):
-    __tablename__ = 'profile_photos'
+# class PhotoProfile(db.Model):
+#     __tablename__ = 'profile_photos'
 
-    id = db.Column(db.Integer, primary_key=True)
-    photo_path = db.Column(db.String())
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+#     id = db.Column(db.Integer, primary_key=True)
+#     photo_path = db.Column(db.String())
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
 
 
