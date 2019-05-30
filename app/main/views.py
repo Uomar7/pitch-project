@@ -161,6 +161,7 @@ def post_comment(id):
     form = CommentForm()
     title = 'post comment'
     pitches = Pitch.query.filter_by(id=id).first()
+    comments = Comments.query.filter_by().all()
 
     if pitches is None:
          abort(404)
@@ -171,8 +172,8 @@ def post_comment(id):
             feedback=feedback, user_id=current_user.id, pitches_id=pitches.id)
         new_comment.save_comment()
         
-        # return redirect(url_for('main.index', id=pitches.id))
+        return redirect(url_for('main.index', id=pitches.id))
 
-    return render_template('post_comment.html', comment_form=form, title=title)
+    return render_template('post_comment.html', comment_form=form, title=title,comments=comments)
 
 
